@@ -1,7 +1,15 @@
 ﻿# Problema do Produtor Consumidor
  
  
-**Universidade Veiga de Almeida**
+**Universidade Veiga de Almeida**  
+*Disciplina de Arquitetura e Funcionamento de Sistemas Operacionais*  
+
+Integrantes do grupo:  
+André Luiz Braga Vasco de Paula | 20201103664  
+Kevin William M. Maia | 20161101736  
+Filipe da Silva Machado Silva | 20121104748  
+Sérgio Vinícius Mamed | 20201102420  
+Ryan de Mello Paladino | 20162102609
 
 ## Descrição do problema
 - Dois processos compartilham um *buffer* de tamanho fixo
