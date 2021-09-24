@@ -1,43 +1,54 @@
 from threading import Thread, Semaphore
 import time
-import random 
+import random       
 
+queue = []         #queue from where producer will produce data and consumer will consume data
+MAX_NUM = 10       #max limit of the queue
 
-buffer = []
-MAX_NUM = 10 
+sem = Semaphore()  #intitializing semaphore
 
 class ProducerThread(Thread):
     def run(self):
-        nums = range(5) #generate random numbers 1 to 5
-        global buffer
-
+        nums = range(5) # [0 1 2 3 4]
+        global queue
+        
         while True:
-            if len(buffer) == MAX_NUM:
-                print("Lista está cheia, o produtor aguardará o consumidor;")
+            sem.acquire()  #wait operation to stop consuming 
+            if len(queue) == MAX_NUM:
+                
+                print ("Lista está cheia, Prudutor vai aguardar o Consumidor;")
+                sem.release() #signal operation only when when queue is full and allow consumer to consume data
+                print ("Espaço liberado no buffer, Consumidor notificou o produtor")
 
-            num = random.choice(nums)
-            buffer.append(num) #adicionou o numero aleatório no buffer
-            print("Produzido", num)
+            num = random.choice(nums) 
+            queue.append(num) #added any random number from 0 to 4 to the list
+            print ("Produzido", num) 
+            sem.release() #signal operation to allow consumer to consume data
 
-            time.sleep(random.random()) #para o programa exuctar um pouco mais devagar e permitir a visualização
-
+            time.sleep(random.random()) #to allow program to run a bit slower 
 
 class ConsumerThread(Thread):
     def run(self):
-        global buffer
-
+        global queue
+        
         while True:
-            if not buffer:
-                print("Lista está vazia, aguardando Produtor;")
+            sem.acquire()   #wait operation to stop producing
+            if not queue:
+                print ("Lista está vazia, Consumidor está aguardando Produtor;")
+                sem.release()  #signal operation only when when queue is empty and allow producer to produce data
+                print ("Produtor inseriu algo no buffer e notificou o Consumidor")
             else:
-                num = buffer.pop(0)
-                print("Consumido", num)  
-            time.sleep(random.random()) #para o programa exuctar um pouco mais devagar e permitir a visualização
+                num = queue.pop(0)
+                print ("Consumido", num)
+                
+            sem.release()  #signal operation to allow producer to produce
 
+            time.sleep(random.random())
 
 def main():
-    ProducerThread().start()    #inicia thread Produtor
-    ConsumerThread().start()    #inicia thread Consumidor
+    ProducerThread().start()    #start producer thread
+    ConsumerThread().start()    #start consumer thread
+
 
 if __name__ == '__main__':
     main()
