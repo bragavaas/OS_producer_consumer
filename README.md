@@ -31,3 +31,7 @@ Desvantagens:
 ## Utilização de Semáforos
 - Semáforos são *contadores especiais* para recursos compartilhados;
 - Eles liberam ou interrompem a execução de processos baseados em operações de controle;
+
+## Execução do código
+![2021-09-26-11-06-40_Trim](https://user-images.githubusercontent.com/31835560/134811403-6855b840-d0a1-4702-a792-cdfcef841a11.gif)
+
